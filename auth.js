@@ -8,23 +8,36 @@ const btnCrearCuenta = document.getElementById('crearCuenta');
 
 
 export function registrarUsuarios(){
+btnCrearCuenta.addEventListener("click", () => {
 
-    btnCrearCuenta.addEventListener('click', () =>{
-        nombre = Input.value;
-        contrasena = Input.value;
-        correo = Input.value
-    })
+    console.log("1. Entré al click");
+
+    const nombreUsuario = nombre.value;
+    const correoUsuario = correo.value;
+    const contrasenaUsuario = contrasena.value;
+
+    console.log("2. Leí los inputs");
+
+    const usuarios = cargarUsuarios();
+
+    console.log("3. Cargué usuarios", usuarios);
+
+    usuarios.push({
+        nombre: nombreUsuario,
+        correo: correoUsuario,
+        password: contrasenaUsuario
+    });
+
+    console.log("4. Hice push", usuarios);
+
+    guardarUsuarios(usuarios);
+
+    console.log("5. Guardé usuarios");
+
+    nombre.value = "";
+    correo.value = "";
+    contrasena.value = "";
+
+    alert("Usuario registrado correctamente");
+});
 }
-
-export function iniciarSesion(){
-
-}
-
-export function cerrarSesion(){
-
-}
-
-export function usuarioActual(){
-
-}
-

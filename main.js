@@ -1,5 +1,7 @@
 import { obtenerPeliculas, obtenerDetalles, obtenerTrailer, obtenerPlataformas } from "./api.js";
 import { renderPeliculas, mostrarDetalles } from "./ui.js";
+import { registrarUsuarios } from "./auth.js";
+
 const contenedor = document.getElementById("contenedorPeliculas");
 const inputBuscar = document.getElementById('buscar')
 let peliculasGlobal = [];
@@ -12,6 +14,9 @@ renderPeliculas(peliculasGlobal)
 };
 
 iniciarApp();
+registrarUsuarios()
+
+
 
 // function buscarPeliculas(){};
 
