@@ -1,22 +1,68 @@
 import { obtenerPeliculas, obtenerDetalles, obtenerTrailer, obtenerPlataformas } from "./api.js";
 import { renderPeliculas, mostrarDetalles } from "./ui.js";
-import { registrarUsuarios } from "./auth.js";
+import { registrarUsuarios, iniciarSesion } from "./auth.js";
+import { cargarSesion } from "./storage.js";
 
 const contenedor = document.getElementById("contenedorPeliculas");
 const inputBuscar = document.getElementById('buscar')
 let peliculasGlobal = [];
 
+//para entrar
+const perfilUsuario = document.getElementById("perfilUsuario");
+const btnCerrarSesion = document.getElementById("cerrarSesion");
+//detectamos secion si el user entro para poderle mostrar la paguina
+const login = document.getElementById("login");
+const app = document.getElementById("app");
+
+// si si, mostramos estilos
+
 async function iniciarApp(){
 
 peliculasGlobal = await obtenerPeliculas();
-
-renderPeliculas(peliculasGlobal)
+    console.log(peliculasGlobal);
+    renderPeliculas(peliculasGlobal)
 };
 
-iniciarApp();
+
+//cramos funcion 
+function mostrarApp(usuario){
+
+    login.style.display = "none";
+    app.style.display = "block";
+
+
+    perfilUsuario.textContent =
+    `Bienvenido ${usuario.nombre}`;
+    
+    iniciarApp();
+
+}
+function verificarSesion(){
+
+    const usuarioActivo = cargarSesion();
+
+    if(usuarioActivo){
+
+        login.style.display = "none";
+        app.style.display = "block";
+
+        perfilUsuario.textContent = 
+`Bienvenido ${usuarioActivo.nombre}`;
+
+        iniciarApp();
+
+    }else{
+
+        login.style.display = "block";
+        app.style.display = "none";
+
+    }
+   
+}
+
+verificarSesion();
 registrarUsuarios()
-
-
+iniciarSesion(mostrarApp)
 
 // function buscarPeliculas(){};
 
@@ -46,4 +92,13 @@ const  plataformas = await obtenerPlataformas(id)
 
 mostrarDetalles(pelicula, trailer, plataformas);
 
-})
+});
+
+ btnCerrarSesion.addEventListener("click", () => {
+
+    localStorage.removeItem("usuarioActivo");
+
+    location.reload();
+
+});
+
