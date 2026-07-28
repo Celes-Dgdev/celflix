@@ -3,6 +3,7 @@ import { renderPeliculas, mostrarDetalles } from "./ui.js";
 import { registrarUsuarios, iniciarSesion } from "./auth.js";
 import { cargarSesion } from "./storage.js";
 
+const barraUsuario = document.getElementById("barraUsuario");
 const contenedor = document.getElementById("contenedorPeliculas");
 const inputBuscar = document.getElementById('buscar')
 let peliculasGlobal = [];
@@ -31,9 +32,15 @@ function mostrarApp(usuario){
     app.style.display = "block";
 
 
+    barraUsuario.style.display = "flex";
+
+
     perfilUsuario.textContent =
     `Bienvenido ${usuario.nombre}`;
     
+
+    btnCerrarSesion.style.display = "block";
+
     iniciarApp();
 
 }
@@ -46,8 +53,15 @@ function verificarSesion(){
         login.style.display = "none";
         app.style.display = "block";
 
+
+    barraUsuario.style.display = "flex";
+
+
         perfilUsuario.textContent = 
 `Bienvenido ${usuarioActivo.nombre}`;
+
+
+    btnCerrarSesion.style.display = "block";
 
         iniciarApp();
 
@@ -55,7 +69,9 @@ function verificarSesion(){
 
         login.style.display = "block";
         app.style.display = "none";
+   btnCerrarSesion.style.display = "none";
 
+    barraUsuario.style.display = "none";
     }
    
 }
@@ -97,6 +113,8 @@ mostrarDetalles(pelicula, trailer, plataformas);
  btnCerrarSesion.addEventListener("click", () => {
 
     localStorage.removeItem("usuarioActivo");
+
+    btnCerrarSesion.style.display = "none";
 
     location.reload();
 
